@@ -1,6 +1,6 @@
 import type { ScrapingStage } from '@/schema'
 
-export const calendar = {
+const stage = {
   name: 'calendar',
   nextUrlRule: {
     kind: 'generate',
@@ -19,3 +19,5 @@ export const calendar = {
     },
   },
 } as const satisfies ScrapingStage
+
+export default stage

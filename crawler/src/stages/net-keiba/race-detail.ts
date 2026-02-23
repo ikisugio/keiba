@@ -7,7 +7,7 @@ interface RaceData {
   // TODO: 必要なフィールドを追加
 }
 
-export const raceDetail = {
+const stage = {
   name: 'raceDetail',
   extractor: {
     kind: 'data',
@@ -22,3 +22,5 @@ export const raceDetail = {
     },
   },
 } as const satisfies ScrapingStage
+
+export default stage

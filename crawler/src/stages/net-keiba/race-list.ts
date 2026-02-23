@@ -1,6 +1,6 @@
 import type { ScrapingStage } from '@/schema'
 
-export const raceList = {
+const stage = {
   name: 'raceList',
   extractor: {
     kind: 'urls',
@@ -12,3 +12,5 @@ export const raceList = {
     },
   },
 } as const satisfies ScrapingStage
+
+export default stage
