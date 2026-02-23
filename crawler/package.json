@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "cheerio": "^1.2.0",
+    "effect": "^3.19.19",
+    "playwright": "^1.58.2"
+  },
+  "name": "crawler",
+  "module": "src/index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
