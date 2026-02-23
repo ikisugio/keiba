@@ -9,11 +9,11 @@ interface RaceData {
 
 const stage = {
   name: 'raceDetail',
+  fetchMode: 'static',
   extractor: {
     kind: 'data',
     fn: (html: string): RaceData => {
       // TODO: HTMLからレースデータを抽出
-      // 例: cheerio でパース
       return {
         raceId: '',
         raceName: '',

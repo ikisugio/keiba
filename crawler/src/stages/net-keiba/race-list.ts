@@ -2,11 +2,11 @@ import type { ScrapingStage } from '@/schema'
 
 const stage = {
   name: 'raceList',
+  fetchMode: 'static',
   extractor: {
     kind: 'urls',
     fn: (html: string) => {
       // TODO: HTMLからレースURLを抽出
-      // 例: cheerio でパース
       const raceUrls: string[] = []
       return raceUrls
     },
