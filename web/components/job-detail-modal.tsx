@@ -114,7 +114,20 @@ export function JobDetailModal({
   onRescrape,
   isRescraping,
 }: JobDetailModalProps) {
-  const [size, setSize] = useState({ w: DEFAULT_W, h: DEFAULT_H })
+  const [size, setSize] = useState(() => {
+    if (typeof window === "undefined") return { w: DEFAULT_W, h: DEFAULT_H }
+    try {
+      const saved = localStorage.getItem("job-modal-size")
+      if (saved) {
+        const { w, h } = JSON.parse(saved)
+        return {
+          w: Math.min(Math.max(Number(w), MIN_W), window.innerWidth - 40),
+          h: Math.min(Math.max(Number(h), MIN_H), window.innerHeight - 40),
+        }
+      }
+    } catch {}
+    return { w: DEFAULT_W, h: DEFAULT_H }
+  })
   const [isResizing, setIsResizing] = useState(false)
   const [logLevelFilter, setLogLevelFilter] = useState<LogLevel | "all">("all")
   const [logSearch, setLogSearch] = useState("")
@@ -127,7 +140,6 @@ export function JobDetailModal({
 
   useEffect(() => {
     if (open) {
-      setSize({ w: DEFAULT_W, h: DEFAULT_H })
       setIsResizing(false)
       setLogLevelFilter("all")
       setLogSearch("")
@@ -243,6 +255,10 @@ export function JobDetailModal({
         document.body.style.userSelect = ""
         document.removeEventListener("mousemove", onMove)
         document.removeEventListener("mouseup", onUp)
+        setSize((prev) => {
+          localStorage.setItem("job-modal-size", JSON.stringify(prev))
+          return prev
+        })
       }
 
       document.addEventListener("mousemove", onMove)
