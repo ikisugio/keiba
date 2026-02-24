@@ -383,7 +383,7 @@ export function WorkflowSidebar({
         {/* Header */}
         <div className="px-3 pt-3 pb-2 border-b border-border shrink-0">
           <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
-            Workflows
+            Workflows ({filteredWorkflows.length})
           </span>
           <div className="mt-2">
             <CompactFilterBar
