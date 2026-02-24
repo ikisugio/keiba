@@ -44,6 +44,30 @@ export function StageDetail({
   )
   const [selectedJob, setSelectedJob] = useState<ScrapeJob | null>(null)
   const [jobModalOpen, setJobModalOpen] = useState(false)
+  const [topHeight, setTopHeight] = useState(() => {
+    if (typeof window === "undefined") return 220
+    const saved = localStorage.getItem("stage-top-height")
+    return saved ? Math.max(80, Number(saved)) : 220
+  })
+
+  const handleDividerMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault()
+    const startY = e.clientY
+    const startH = topHeight
+    const onMove = (ev: MouseEvent) => {
+      setTopHeight(Math.max(80, startH + (ev.clientY - startY)))
+    }
+    const onUp = () => {
+      document.removeEventListener("mousemove", onMove)
+      document.removeEventListener("mouseup", onUp)
+      setTopHeight((prev) => {
+        localStorage.setItem("stage-top-height", String(prev))
+        return prev
+      })
+    }
+    document.addEventListener("mousemove", onMove)
+    document.addEventListener("mouseup", onUp)
+  }
 
   const totalJobs = stage.jobs.length
   const successJobs = stage.jobs.filter((j) => j.status === "success").length
@@ -62,6 +86,8 @@ export function StageDetail({
 
   return (
     <div className="flex flex-col h-full">
+      {/* Upper section - resizable */}
+      <div style={{ height: topHeight }} className="flex-none overflow-hidden">
       {/* Stage header */}
       <div className="flex items-start justify-between px-6 py-4 border-b border-border shrink-0">
         <div className="min-w-0 flex-1">
@@ -180,6 +206,15 @@ export function StageDetail({
             {stage.totalItems.toLocaleString()}
           </div>
         </div>
+      </div>
+      </div>
+
+      {/* Resize divider */}
+      <div
+        onMouseDown={handleDividerMouseDown}
+        className="h-1.5 cursor-ns-resize shrink-0 hover:bg-primary/20 active:bg-primary/30 transition-colors group relative"
+      >
+        <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-10 h-0.5 rounded-full bg-border group-hover:bg-primary/50 transition-colors" />
       </div>
 
       {/* Tabs: Jobs | Stage Logs */}
