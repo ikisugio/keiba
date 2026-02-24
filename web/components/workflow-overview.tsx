@@ -240,11 +240,11 @@ export function WorkflowOverview({
       <Tabs defaultValue="jobs" className="flex-1 flex flex-col min-h-0">
         <div className="px-6 pt-3 border-b border-border shrink-0">
           <TabsList className="bg-secondary">
-            <TabsTrigger value="jobs" className="gap-1.5 text-xs cursor-pointer">
+            <TabsTrigger value="jobs" className="gap-1.5 text-xs cursor-pointer data-[state=active]:bg-primary/15 data-[state=active]:text-primary dark:data-[state=active]:text-primary data-[state=active]:border-primary/30">
               <Globe className="size-3" />
               All Jobs ({totalJobs})
             </TabsTrigger>
-            <TabsTrigger value="logs" className="gap-1.5 text-xs cursor-pointer">
+            <TabsTrigger value="logs" className="gap-1.5 text-xs cursor-pointer data-[state=active]:bg-primary/15 data-[state=active]:text-primary dark:data-[state=active]:text-primary data-[state=active]:border-primary/30">
               <BarChart3 className="size-3" />
               Workflow Logs ({workflow.logs.length})
             </TabsTrigger>
