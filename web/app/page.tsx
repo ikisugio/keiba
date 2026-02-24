@@ -69,7 +69,11 @@ export default function DashboardPage() {
   const [runningStages, setRunningStages] = useState<string[]>([])
 
   // ---------- resizable sidebar ----------
-  const [sidebarWidth, setSidebarWidth] = useState(320)
+  const [sidebarWidth, setSidebarWidth] = useState(() => {
+    if (typeof window === "undefined") return 320
+    const saved = localStorage.getItem("sidebar-width")
+    return saved ? Math.min(Math.max(Number(saved), 240), 600) : 320
+  })
   const isResizing = useRef(false)
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
@@ -82,6 +86,7 @@ export default function DashboardPage() {
       if (!isResizing.current) return
       const newWidth = Math.min(Math.max(e.clientX, 240), 600)
       setSidebarWidth(newWidth)
+      localStorage.setItem("sidebar-width", String(newWidth))
     }
 
     const onMouseUp = () => {

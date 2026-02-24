@@ -250,7 +250,11 @@ export function WorkflowSidebar({
   const [stageStatusFilter, setStageStatusFilter] = useState<ScrapeStatus | "all">("all")
 
   // Split ratio: fraction of total height given to workflows panel
-  const [splitRatio, setSplitRatio] = useState(0.4)
+  const [splitRatio, setSplitRatio] = useState(() => {
+    if (typeof window === "undefined") return 0.4
+    const saved = localStorage.getItem("sidebar-split-ratio")
+    return saved ? Math.min(Math.max(Number(saved), 0.15), 0.85) : 0.4
+  })
   const containerRef = useRef<HTMLDivElement>(null)
 
   const sensors = useSensors(
@@ -357,6 +361,7 @@ export function WorkflowSidebar({
       const delta = e.clientY - startY
       const newRatio = Math.max(0.15, Math.min(0.85, startRatio + delta / containerHeight))
       setSplitRatio(newRatio)
+      localStorage.setItem("sidebar-split-ratio", String(newRatio))
     }
 
     const onMouseUp = () => {
